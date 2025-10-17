@@ -1,0 +1,12 @@
+Weekly engineering sync notes
+
+Attendees: Alice, Bob, Nandakishore
+
+Agenda:
+- Design review for the new video analytics pipeline
+- Deployment schedule
+- Test coverage for the frame detection module
+
+Decisions:
+The team will first implement a threshold-based black frame detector using OpenCV.
+Next steps include clustering frames and building a dashboard for QA.

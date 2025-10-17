@@ -1,0 +1,11 @@
+# Customer Support Ticket login-failure
+
+User reports being unable to log in after password reset. Error token invalidated.
+
+Investigations
+- Checked auth logs; refresh token missing.
+- Rolled back recent auth config change, user could log in.
+
+Action items
+- Add retry logic to token refresh.
+- Add telemetry for auth failures.
