@@ -15,7 +15,6 @@ def suggest(args):
 def feedback(args):
     tagger = IntelligentTagger()
     _ = tagger.ingest_folder(args.data_dir) if args.data_dir else None
-    # We don't need TF-IDF to apply feedback
     w = tagger.apply_feedback(args.doc, args.tag, approve=(args.action == "approve"))
     print(f"Updated weight for tag '{args.tag}': {w:.3f}")
 

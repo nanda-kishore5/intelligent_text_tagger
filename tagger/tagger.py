@@ -36,7 +36,7 @@ class IntelligentTagger:
         with open(self.feedback_path, "w", encoding="utf-8") as f:
             json.dump(self.feedback, f, indent=2)
 
-    # ----- ingestion -----
+    #ingestion
     def ingest_folder(self, folder_path: str):
         files = []
         for name in os.listdir(folder_path):
@@ -51,7 +51,7 @@ class IntelligentTagger:
         self.corpus_texts = texts
         return files
 
-    # ----- TF-IDF fit -----
+    #TF-IDF fit
     def fit_tfidf(self):
         if not self.corpus_texts:
             raise ValueError("No corpus loaded. Call ingest_folder first.")
@@ -59,7 +59,7 @@ class IntelligentTagger:
         self.tfidf_matrix = self.vectorizer.fit_transform(self.corpus_texts)
         self.feature_names = self.vectorizer.get_feature_names_out()
 
-    # ----- simple noun phrase extraction -----
+    #Simple noun phrase extraction
     def _extract_noun_phrases(self, text: str, max_phrases: int = 20) -> List[str]:
         # naive: collect consecutive nouns / proper nouns as candidate phrases
         tokens = word_tokenize(text)
@@ -85,7 +85,7 @@ class IntelligentTagger:
                 out.append(p)
         return out[:max_phrases]
 
-    # ----- candidate tag generation -----
+    # candidate tag generation
     def _tfidf_candidates_for_doc(self, doc_index: int, top_k: int = 10) -> List[Tuple[str, float]]:
         if self.tfidf_matrix is None:
             raise ValueError("TF-IDF not fitted; call fit_tfidf().")
@@ -124,7 +124,7 @@ class IntelligentTagger:
         ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
         return ranked[:top_k]
 
-    # ----- feedback loop -----
+    #feedback loop
     def apply_feedback(self, doc_name: str, tag: str, approve: bool, adjust_amount: float = 0.25):
         tag = tag.lower()
         # ensure doc_feedback structure
@@ -159,7 +159,7 @@ class IntelligentTagger:
     def get_weights(self) -> Dict[str, float]:
         return dict(self.feedback.get("tag_weights", {}))
 
-    # ----- convenience -----
+    #convenience
     def suggest_all(self, top_k: int = 5) -> Dict[str, List[Tuple[str, float]]]:
         if not self.corpus_texts or self.tfidf_matrix is None:
             raise ValueError("Please ingest a folder and fit TF-IDF first.")

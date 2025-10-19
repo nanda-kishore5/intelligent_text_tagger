@@ -1,0 +1,7 @@
+Notes on extensions (how to add LLMs or vector search)
+
+LLMs: send the doc to an LLM prompt (e.g., “List up to 10 concise tags for this document”) and merge LLM suggestions with TF-IDF candidates. Use feedback to train a small reranker that combines LLM confidence + feedback weights.
+
+Vector search: maintain a small tag-embedding table. Embed new docs; retrieve closest tag embeddings to propose tags; user feedback can be used to adjust tag embeddings (via weighted average of doc embeddings) or to flag false positives.
+
+More advanced learning: use online logistic regression or a small gradient-boosted model to predict tag applicability; feedback creates labeled examples over time.

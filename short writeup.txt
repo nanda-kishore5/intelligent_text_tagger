@@ -1,0 +1,13 @@
+How feedback improves the system (short write-up)
+
+Candidate generation (no learned state): The system starts by proposing tags from TF-IDF top terms and noun-phrase extraction — this yields reasonable, domain-agnostic candidates.
+
+Applying feedback (learning): Every approve/reject updates a tag_weights[tag] value in feedback.json (small increments, clamped). Approvals increase weight; rejections decrease it.
+
+Using weights at inference: When ranking candidate tags later, each candidate’s base score (TF-IDF + phrase boost) is multiplied by (1 + tag_weight). That means:
+
+If a tag got approved repeatedly, tag_weight grows positive → the multiplier grows >1 → the tag rises in rank for relevant documents.
+
+If a tag gets rejected, the weight goes negative → the multiplier <1 → the tag gets demoted.
+
+Why this works: a) It’s simple and explainable; b) It adapts quickly from few labels; c) It's robust: weights are clamped and do not blow up.

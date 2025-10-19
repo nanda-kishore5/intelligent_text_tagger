@@ -1,14 +1,17 @@
 {
   "tag_weights": {
     "weekly engineering sync notes attendees": 0.5,
-    "unable": -0.25
+    "unable": -0.25,
+    "nandakishore agenda": -0.25
   },
   "doc_feedback": {
     "sample1.txt.txt": {
       "approved": [
         "weekly engineering sync notes attendees"
       ],
-      "rejected": []
+      "rejected": [
+        "nandakishore agenda"
+      ]
     },
     "sample2.md.txt": {
       "approved": [],
